@@ -34,10 +34,9 @@ For more information, run `./build-objects --help` or read the source code.
 
 ## Advantages
 
-* The compilation and dependency handling can be done purely in the Makefile.
-  However, using this script is probably more portable and requires less
-  boilerplate.
-* Supporting multiple optimization levels/configurations is also with this
+* While compilation and dependency handling can be done purely in a Makefile,
+  using this script is probably more portable and requires less boilerplate.
+* Supporting multiple optimization levels/configurations is easy with this
   script; just use separate build directories. Using pure Make to do this would
   again be more complex, as far as I know.
 
@@ -47,7 +46,7 @@ For more information, run `./build-objects --help` or read the source code.
   must be in a single source directory. This setup is common enough for the
   script to be useful, but larger, more complex projects may not be supported.
 * Using the format of the example above, removing a file will not trigger a
-  rebuild. This is annoying, though I doubt it will be a problem very often.
+  rebuild. This is bad, though I doubt it will be a problem very often at all.
 * While I think the code is portable, I haven't tested except on the few
   computers I own.
 
