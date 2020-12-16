@@ -36,7 +36,7 @@ my $progname = $0;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
 sub HELP_MESSAGE {
-	print <<EOT;
+	print(<<EOT);
 
 Usage: $progname [<options>] [--] <cc> <cc-args>
 
@@ -61,7 +61,7 @@ EOT
 }
 
 sub VERSION_MESSAGE {
-	print "$progname version 0.0.5\n";
+	print("$progname version 0.0.6\n");
 }
 
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
