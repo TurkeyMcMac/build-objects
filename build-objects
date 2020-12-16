@@ -40,7 +40,9 @@ sub HELP_MESSAGE {
 Usage: $progname [<options>] [--] <cc> <cc-args>
 
 Compile a directory's C/C++ source files into object files in another directory.
-Header dependencies are tracked. This script can be used in Makefiles like so:
+The compiler is invoked as <cc> <cc-argv> -MD -MF ... -c -o ..., so make sure it
+supports -MD/-MF for tracking dependencies. This script can be used in Makefiles
+like so:
   release-executable: src/*
           \@$progname -s src -b build/release \$(CC) \$(CFLAGS)
           \$(CC) -o \$@ build/release/*.o \$(LDLIBS)
@@ -58,7 +60,7 @@ EOT
 }
 
 sub VERSION_MESSAGE {
-	print "$progname version 0.0.1\n";
+	print "$progname version 0.0.2\n";
 }
 
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
