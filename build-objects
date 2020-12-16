@@ -101,7 +101,7 @@ sub mtime {
 
 # Parse the options:
 my %opts;
-getopts('s:b:j:', \%opts);
+getopts('s:b:j:', \%opts) or die('Aborting');
 my $src_path = make_path_safe($opts{s} // 'src');
 my $build_path = make_path_safe($opts{b} // 'build');
 my $max_procs = $opts{j} // '1';
