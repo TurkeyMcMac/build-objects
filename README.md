@@ -4,7 +4,7 @@ This is a script for simplifying C/C++ compilation. It's meant to be copied into
 a project and used from there. It's written in Perl and should work on most
 Unix-based operating systems (not Windows.) It should work with most Make
 implementations, and supported compilers include GCC, Clang, and TinyCC.
-(Compilers must support the `-MD` and `-MF` options.This may exclude some old
+(Compilers must support the `-MD` and `-MF` options. This may exclude some old
 versions, I don't know.)
 
 ## Example
