@@ -56,6 +56,15 @@ sub get_n_processors {
 	return 4;
 }
 
+# Checks if a path ends with one of the given suffixes (after a dot.)
+sub matches_endings {
+	my ($str, @endings) = @_;
+	foreach my $ending (@endings) {
+		return 1 if $str =~ /\.(.*)$/ && $1 eq $ending;
+	}
+	return 0;
+}
+
 # Gets the contents at the path as a string, dying if that is not possible.
 sub get_file_contents {
 	my ($path) = @_;
@@ -101,10 +110,11 @@ sub mtime {
 
 # Parse the options:
 my %opts;
-getopts('s:b:j:', \%opts) or die('Aborting');
+getopts('s:b:j:e:', \%opts) or die('Aborting');
 my $src_path = make_path_safe($opts{s} // 'src');
 my $build_path = make_path_safe($opts{b} // 'build');
 my $max_procs = $opts{j} // '1';
+my @file_endings = split(',', $opts{e} // 'c,cc,cpp,cxx,C,CPP,m');
 my @generic_cc_argv = @ARGV;
 if ($max_procs eq 'auto') {
 	$max_procs = get_n_processors();
@@ -122,7 +132,7 @@ opendir(my $src_dir, $src_path) or die("$src_path: $!");
 my @rebuilds = ();
 while (my $src_file = readdir($src_dir)) {
 	# Only consider files with the right suffixes:
-	next if -d($src_file) || $src_file !~ /\.(?:c|cc|cpp|cxx|C|CPP|m)$/;
+	next if -d($src_file) || !matches_endings($src_file, @file_endings);
 
 	my $input = "$src_path/$src_file";
 	my $output = "$build_path/$src_file.o";
