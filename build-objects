@@ -61,7 +61,7 @@ EOT
 }
 
 sub VERSION_MESSAGE {
-	print "$progname version 0.0.3\n";
+	print "$progname version 0.0.4\n";
 }
 
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
@@ -181,12 +181,12 @@ while (my $src_file = readdir($src_dir)) {
 	my $output = "$build_path/$src_file.o";
 	my $deps = "$build_path/$src_file.d";
 
-	# Rebuild if the source file has been modified:
-	my $do_rebuild = mtime($input) > mtime($output);
+	# Rebuild if the source file has been modified, or if the dependency
+	# file is missing for some reason:
+	my $do_rebuild = mtime($input) > mtime($output) || !-e($deps);
 	unless ($do_rebuild) {
 		# Rebuild if a prerequisite has been changed (or doesn't exist):
-		my @prereqs = -f($deps) ?
-			parse_deps(get_file_contents($deps)) : ();
+		my @prereqs = parse_deps(get_file_contents($deps));
 		foreach my $prereq (@prereqs) {
 			if (!-e($prereq) || mtime($prereq) > mtime($output)) {
 				$do_rebuild = 1;
