@@ -175,7 +175,7 @@ foreach my $rebuild (@rebuilds) {
 	my $pid = fork();
 	if ($pid == 0) {
 		exec(@child_argv);
-		# If exec failes, it seems to print an error message on its own.
+		# If exec fails, it seems to print an error message on its own.
 		exit(1);
 	} elsif ($pid < 0) {
 		die($!);
