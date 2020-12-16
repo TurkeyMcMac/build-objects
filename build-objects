@@ -3,6 +3,7 @@
 # This file is a script for simplifying the building of C/C++ projects that use
 # Makefiles. It works with non-GNU make implementations and compilers including
 # GCC, Clang, and TinyCC.
+# This source code is hosted at https://github.com/TurkeyMcMac/build-objects
 #
 # MIT License
 #
