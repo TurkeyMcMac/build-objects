@@ -41,15 +41,17 @@ sub make_path_safe {
 
 # Tries to find the number of available processors on the computer.
 sub get_n_processors {
+	# nproc is part of GNU coreutils, but it's also in Busybox. It is
+	# probably present on Mac, but the sysctl works for Mac just in case.
+	# Support for more systems can be added here.
+	my $out = `sh -c 'nproc || sysctl -n hw.ncpu' 2>/dev/null`;
+	return $out if $out ne '';
+
+	# Use Sys::Info if it's installed (but it seems slower than the above.)
 	if (eval('require Sys::Info')) {
 		return Sys::Info->new->device("CPU")->count;
-	} else {
-		# nproc is part of GNU coreutils, but it's also in Busybox. It
-		# is probably present on Mac, but the sysctl works for Mac just
-		# in case. Support for more systems can be added here.
-		my $out = `sh -c 'nproc || sysctl -n hw.ncpu' 2>/dev/null`;
-		return $out if $out ne '';
-	};
+	}
+
 	# 4 is a safe default:
 	print(STDERR "$progname: Warning: Cannot determine processor count ",
 		"automatically; assuming there are 4 processors\n");
