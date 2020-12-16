@@ -46,10 +46,10 @@ For more information, run `./build-objects --help` or read the source code.
 * The script only supports a simple project structure: all the compilation units
   must be in a single source directory. This setup is common enough for the
   script to be useful, but larger, more complex projects may not be supported.
-* While I think the code is portable, I haven't tested except on the few
-  computers I own.
 * Using the format of the example above, removing a file will not trigger a
   rebuild. This is annoying, though I doubt it will be a problem very often.
+* While I think the code is portable, I haven't tested except on the few
+  computers I own.
 
 ## History
 
