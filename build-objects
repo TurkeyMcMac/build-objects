@@ -61,7 +61,7 @@ EOT
 }
 
 sub VERSION_MESSAGE {
-	print "$progname version 0.0.4\n";
+	print "$progname version 0.0.5\n";
 }
 
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
@@ -93,8 +93,11 @@ sub get_n_processors {
 # Checks if a path ends with one of the given suffixes (after a dot.)
 sub matches_endings {
 	my ($str, @endings) = @_;
-	foreach my $ending (@endings) {
-		return 1 if $str =~ /\.(.*)$/ && $1 eq $ending;
+	if ($str =~ /\.(.*)$/) {
+		my $ending = $1;
+		foreach my $possible_match (@endings) {
+			return 1 if $ending eq $possible_match;
+		}
 	}
 	return 0;
 }
