@@ -46,7 +46,7 @@ supports -MD/-MF for tracking dependencies. This script can be used in Makefiles
 like so:
   release-executable: src/*
           \@$progname -s src -b build/release \$(CC) \$(CFLAGS)
-          \$(CC) -o \$@ build/release/*.o \$(LDLIBS)
+          \$(CC) -o \$@ \$(LDFLAGS) build/release/*.o \$(LDLIBS)
 
 Options:
   -s <dir>  Set the source code directory. The default is 'src'.
@@ -61,7 +61,7 @@ EOT
 }
 
 sub VERSION_MESSAGE {
-	print "$progname version 0.0.2\n";
+	print "$progname version 0.0.3\n";
 }
 
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
