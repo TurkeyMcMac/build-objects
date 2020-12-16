@@ -32,6 +32,35 @@ use Getopt::Std;
 
 my $progname = $0;
 
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
+
+sub HELP_MESSAGE {
+	print <<EOT;
+
+Usage: $progname [<options>] [--] <cc> <cc-args>
+
+Compile a directory's C/C++ source files into object files in another directory.
+Header dependencies are tracked. This script can be used in Makefiles like so:
+  release-executable: src/*
+          \@$progname -s src -b build/release \$(CC) \$(CFLAGS)
+          \$(CC) -o \$@ build/release/*.o \$(LDLIBS)
+
+Options:
+  -s <dir>  Set the source code directory. The default is 'src'.
+  -b <dir>  Set the build directory. The default is 'build'.
+  -j <num>  Set the number of processors to use for compiling. The default is 1.
+  -j auto   Use processors equal to the number available on the computer.
+  -e <list> Only consider as compilation units files with extensions from the
+            given comma-separated list. The default is 'c,cc,cpp,cxx,C,CPP,m'.
+  -h        Print this help information and exit.
+  -v        Print the script version and exit.
+EOT
+}
+
+sub VERSION_MESSAGE {
+	print "$progname version 0.0.1\n";
+}
+
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
 sub make_path_safe {
 	local ($_) = @_;
@@ -112,7 +141,16 @@ sub mtime {
 
 # Parse the options:
 my %opts;
-getopts('s:b:j:e:', \%opts) or die('Aborting');
+getopts('s:b:j:e:hv', \%opts) or die('Aborting');
+if (defined($opts{h})) {
+	VERSION_MESSAGE();
+	HELP_MESSAGE();
+	exit(0);
+}
+if (defined($opts{v})) {
+	VERSION_MESSAGE();
+	exit(0);
+}
 my $src_path = make_path_safe($opts{s} // 'src');
 my $build_path = make_path_safe($opts{b} // 'build');
 my $max_procs = $opts{j} // '1';
