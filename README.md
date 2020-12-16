@@ -18,7 +18,7 @@ optimized-executable: source/*
 	$(CC) -o $@ $(LDFLAGS) build/O3/*.o $(LDLIBS)
 ```
 
-(The `@` before the script invokation is optional.)
+(The `@` before the script invocation is optional.)
 
 `optimized-executable` will be rebuilt whenever a file in `source` changes. The
 unlinked objects and other intermediate files will be placed in `build/O3`,
