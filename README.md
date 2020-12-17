@@ -47,6 +47,8 @@ For more information, run `./build-objects --help` or read the source code.
   script to be useful, but larger, more complex projects may not be supported.
 * Using the format of the example above, removing a file will not trigger a
   rebuild. This is bad, though I doubt it will be a problem very often at all.
+  (When a rebuild does occur, orphaned object files are deleted to prevent old
+  code from being linked into the final executable.)
 * While I think the code is portable, I haven't tested except on the few
   computers I own.
 

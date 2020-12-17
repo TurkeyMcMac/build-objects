@@ -61,7 +61,7 @@ EOT
 }
 
 sub VERSION_MESSAGE {
-	print("$progname version 0.0.7\n");
+	print("$progname version 0.1.0\n");
 }
 
 # Makes a path safe for command arguments, adding a './' if it begins with '-'.
@@ -172,7 +172,18 @@ if ($max_procs eq 'auto') {
 
 # Prepare to do stuff with the directories:
 system('mkdir', '-p', $build_path) and die('Failed');
+opendir(my $build_dir, $build_path) or die("$build_path: $!");
 opendir(my $src_dir, $src_path) or die("$src_path: $!");
+
+# Remove intermediate files corresponding to nonexistent source files:
+while (my $file = readdir($build_dir)) {
+	if ($file =~ /^(.*)\.o$/ && !-e("$src_path/$1")) {
+		my @rm_argv = ('rm', '-f',
+			"$build_path/$1.o", "$build_path/$1.d");
+		print(join(' ', @rm_argv), "\n");
+		system(@rm_argv) and die('Failed');
+	}
+}
 
 # Collect the compilation units that need rebuilding:
 my @rebuilds = ();
