@@ -18,7 +18,7 @@ optimized-executable: source/*
 	$(CC) -o $@ $(LDFLAGS) build/O3/*.o $(LDLIBS)
 ```
 
-(The `@` before the script invokation is optional.)
+(The `@` before the script invocation is optional.)
 
 `optimized-executable` will be rebuilt whenever a file in `source` changes. The
 unlinked objects and other intermediate files will be placed in `build/O3`,
@@ -34,19 +34,23 @@ For more information, run `./build-objects --help` or read the source code.
 
 ## Advantages
 
-The compilation and dependency handling can be done purely in the Makefile.
-However, using this script is probably more portable and requires less
-boilerplate. Supporting multiple optimization levels/configurations is also easy
-with this script; just use separate build directories. Using pure Make to do
-this would again be more complex, as far as I know.
+* While compilation and dependency handling can be done purely in a Makefile,
+  using this script is probably more portable and requires less boilerplate.
+* Supporting multiple optimization levels/configurations is easy with this
+  script; just use separate build directories. Using pure Make to do this would
+  again be more complex, as far as I know.
 
 ## Disadvantages
 
-The script only supports a simple project structure: all the compilation units
-must be in a single source directory. This setup is common enough for the script
-to be useful, but larger, more complex projects may not be supported. Also,
-while I think the code is portable, I haven't tested except on the few computers
-I own.
+* The script only supports a simple project structure: all the compilation units
+  must be in a single source directory. This setup is common enough for the
+  script to be useful, but larger, more complex projects may not be supported.
+* Using the format of the example above, removing a file will not trigger a
+  rebuild. This is bad, though I doubt it will be a problem very often at all.
+  (When a rebuild does occur, orphaned object files are deleted to prevent old
+  code from being linked into the final executable.)
+* While I think the code is portable, I haven't tested except on the few
+  computers I own.
 
 ## History
 
