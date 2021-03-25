@@ -14,7 +14,7 @@ in the `source` directory. You could put this in your Makefile:
 
 ```
 optimized-executable: source/*
-	@./build-objects -s source -b build/O3 -j auto $(CC) -O3 $(CFLAGS)
+	@./build-objects -s source -b build/O3 -j auto $(CC) -O3 $(CPPFLAGS) $(CFLAGS)
 	$(CC) -o $@ $(LDFLAGS) build/O3/*.o $(LDLIBS)
 ```
 
@@ -26,7 +26,7 @@ which will be created if it does not exist. `-j auto` will tell the script to
 use all available processors for compilation. If there were a file `f.c` to
 compile, it would be compiled like so:
 
-    $(CC) -O3 $(CFLAGS) -MD -MF build/O3/f.c.d -c -o build/O3/f.c.o source/f.c
+    $(CC) -O3 $(CPPFLAGS) $(CFLAGS) -MD -MF build/O3/f.c.d -c -o build/O3/f.c.o source/f.c
 
 The build directory can be safely removed when cleaning up.
 
